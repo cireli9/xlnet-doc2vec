@@ -1,0 +1,54 @@
+max features = 1000
+Accuracy for C=0.01, train = 0.864, test = 0.85312
+Accuracy for C=0.05, train = 0.86772, test = 0.85324
+Accuracy for C=0.25, train = 0.86832, test = 0.85124
+Accuracy for C=0.5, train = 0.86848, test = 0.85072
+Accuracy for C=1, train = 0.8684, test = 0.85012
+max features = 2000
+Accuracy for C=0.01, train = 0.88616, test = 0.8728
+Accuracy for C=0.05, train = 0.89656, test = 0.871
+Accuracy for C=0.25, train = 0.90024, test = 0.86472
+Accuracy for C=0.5, train = 0.90052, test = 0.8634
+Accuracy for C=1, train = 0.90068, test = 0.86236
+max features = 3000
+Accuracy for C=0.01, train = 0.89928, test = 0.87788
+Accuracy for C=0.05, train = 0.91584, test = 0.8772
+Accuracy for C=0.25, train = 0.92336, test = 0.86852
+Accuracy for C=0.5, train = 0.92452, test = 0.86504
+Accuracy for C=1, train = 0.92472, test = 0.86204
+max features = 4000
+Accuracy for C=0.01, train = 0.90692, test = 0.88264
+Accuracy for C=0.05, train = 0.92848, test = 0.88304
+Accuracy for C=0.25, train = 0.94184, test = 0.87316
+Accuracy for C=0.5, train = 0.94508, test = 0.86788
+Accuracy for C=1, train = 0.94708, test = 0.86192
+max features = 5000
+Accuracy for C=0.01, train = 0.91256, test = 0.88604
+Accuracy for C=0.05, train = 0.93824, test = 0.88492
+Accuracy for C=0.25, train = 0.95528, test = 0.8716
+Accuracy for C=0.5, train = 0.95996, test = 0.86508
+Accuracy for C=1, train = 0.965, test = 0.85852
+max features = 6000
+Accuracy for C=0.01, train = 0.91508, test = 0.88756
+Accuracy for C=0.05, train = 0.94548, test = 0.88704
+Accuracy for C=0.25, train = 0.96772, test = 0.87452
+Accuracy for C=0.5, train = 0.97476, test = 0.86644
+Accuracy for C=1, train = 0.98124, test = 0.85928
+max features = 7000
+Accuracy for C=0.01, train = 0.91868, test = 0.88796
+Accuracy for C=0.05, train = 0.94992, test = 0.88848
+Accuracy for C=0.25, train = 0.9752, test = 0.87628
+Accuracy for C=0.5, train = 0.9838, test = 0.86856
+Accuracy for C=1, train = 0.99172, test = 0.861
+max features = 8000
+Accuracy for C=0.01, train = 0.9222, test = 0.88784
+Accuracy for C=0.05, train = 0.95516, test = 0.88876
+Accuracy for C=0.25, train = 0.981, test = 0.8768
+Accuracy for C=0.5, train = 0.98928, test = 0.86992
+Accuracy for C=1, train = 0.99556, test = 0.86464
+max features = 9000
+Accuracy for C=0.01, train = 0.924, test = 0.88852
+Accuracy for C=0.05, train = 0.95992, test = 0.88976
+Accuracy for C=0.25, train = 0.98512, test = 0.8774
+Accuracy for C=0.5, train = 0.99328, test = 0.87172
+Accuracy for C=1, train = 0.99776, test = 0.8666
