@@ -1,0 +1,159 @@
+XL_LM: 0.5276
+XL_Seq: 0.5164
+
+Adaptive normalized doc2vec features + xlnet
+0.608040 : 1 passes at alpha 0.025000
+0.763400 : 2 passes at alpha 0.023800
+0.814240 : 3 passes at alpha 0.022600
+0.841880 : 4 passes at alpha 0.021400
+0.857800 : 5 passes at alpha 0.020200
+0.866800 : 6 passes at alpha 0.019000
+0.872840 : 7 passes at alpha 0.017800
+0.880280 : 8 passes at alpha 0.016600
+0.881880 : 9 passes at alpha 0.015400
+0.883520 : 10 passes at alpha 0.014200
+0.885120 : 11 passes at alpha 0.013000
+0.885600 : 12 passes at alpha 0.011800
+0.886720 : 13 passes at alpha 0.010600
+0.885560 : 14 passes at alpha 0.009400
+0.887320 : 15 passes at alpha 0.008200
+0.887440 : 16 passes at alpha 0.007000
+0.888120 : 17 passes at alpha 0.005800
+0.888600 : 18 passes at alpha 0.004600
+0.888720 : 19 passes at alpha 0.003400
+0.889000 : 20 passes at alpha 0.002200
+
+Constant normalization doc2vec + xlnet (x10)
+0.664840 : 1 passes at alpha 0.025000
+0.780600 : 2 passes at alpha 0.023800
+0.825280 : 3 passes at alpha 0.022600
+0.846880 : 4 passes at alpha 0.021400
+0.860160 : 5 passes at alpha 0.020200
+0.869560 : 6 passes at alpha 0.019000
+0.874000 : 7 passes at alpha 0.017800
+0.878720 : 8 passes at alpha 0.016600
+0.881720 : 9 passes at alpha 0.015400
+0.883120 : 10 passes at alpha 0.014200
+0.884840 : 11 passes at alpha 0.013000
+0.885320 : 12 passes at alpha 0.011800
+0.886200 : 13 passes at alpha 0.010600
+0.886840 : 14 passes at alpha 0.009400
+0.888000 : 15 passes at alpha 0.008200
+0.888120 : 16 passes at alpha 0.007000
+0.889040 : 17 passes at alpha 0.005800
+0.888440 : 18 passes at alpha 0.004600
+0.888840 : 19 passes at alpha 0.003400
+0.888560 : 20 passes at alpha 0.002200
+
+No norm doc2vec + xlnet
+0.636640 : 1 passes at alpha 0.025000
+0.775920 : 2 passes at alpha 0.023800
+0.824880 : 3 passes at alpha 0.022600
+0.845880 : 4 passes at alpha 0.021400
+0.861240 : 5 passes at alpha 0.020200
+0.869400 : 6 passes at alpha 0.019000
+0.873920 : 7 passes at alpha 0.017800
+0.877600 : 8 passes at alpha 0.016600
+0.880880 : 9 passes at alpha 0.015400
+0.883120 : 10 passes at alpha 0.014200
+0.885960 : 11 passes at alpha 0.013000
+0.885120 : 12 passes at alpha 0.011800
+0.885680 : 13 passes at alpha 0.010600
+0.885560 : 14 passes at alpha 0.009400
+0.886480 : 15 passes at alpha 0.008200
+0.887080 : 16 passes at alpha 0.007000
+0.887080 : 17 passes at alpha 0.005800
+0.887800 : 18 passes at alpha 0.004600
+0.887000 : 19 passes at alpha 0.003400
+0.887400 : 20 passes at alpha 0.002200
+
+Doc2vec
+0.637160 : 1 passes at alpha 0.025000
+0.776200 : 2 passes at alpha 0.023800
+0.822760 : 3 passes at alpha 0.022600
+0.847080 : 4 passes at alpha 0.021400
+0.862520 : 5 passes at alpha 0.020200
+0.870600 : 6 passes at alpha 0.019000
+0.875520 : 7 passes at alpha 0.017800
+0.878680 : 8 passes at alpha 0.016600
+0.881480 : 9 passes at alpha 0.015400
+0.882760 : 10 passes at alpha 0.014200
+0.885920 : 11 passes at alpha 0.013000
+0.887400 : 12 passes at alpha 0.011800
+0.886840 : 13 passes at alpha 0.010600
+0.887920 : 14 passes at alpha 0.009400
+0.888760 : 15 passes at alpha 0.008200
+0.887720 : 16 passes at alpha 0.007000
+0.888640 : 17 passes at alpha 0.005800
+0.888520 : 18 passes at alpha 0.004600
+0.888800 : 19 passes at alpha 0.003400
+0.888600 : 20 passes at alpha 0.002200
+
+Adaptive Norm doc2vec + custom xlnet features
+0.595200 : 1 passes at alpha 0.025000
+0.761880 : 2 passes at alpha 0.023800
+0.815840 : 3 passes at alpha 0.022600
+0.839320 : 4 passes at alpha 0.021400
+0.856000 : 5 passes at alpha 0.020200
+0.866320 : 6 passes at alpha 0.019000
+0.872360 : 7 passes at alpha 0.017800
+0.876320 : 8 passes at alpha 0.016600
+0.879880 : 9 passes at alpha 0.015400
+0.881520 : 10 passes at alpha 0.014200
+0.885000 : 11 passes at alpha 0.013000
+0.886200 : 12 passes at alpha 0.011800
+0.885720 : 13 passes at alpha 0.010600
+0.885640 : 14 passes at alpha 0.009400
+0.886280 : 15 passes at alpha 0.008200
+0.887120 : 16 passes at alpha 0.007000
+0.887760 : 17 passes at alpha 0.005800
+0.887520 : 18 passes at alpha 0.004600
+0.887040 : 19 passes at alpha 0.003400
+0.887720 : 20 passes at alpha 0.002200
+
+Test D2v
+0.664760 : 1 passes at alpha 0.025000
+0.776800 : 2 passes at alpha 0.023800
+0.825880 : 3 passes at alpha 0.022600
+0.848400 : 4 passes at alpha 0.021400
+0.861120 : 5 passes at alpha 0.020200
+0.868560 : 6 passes at alpha 0.019000
+0.873400 : 7 passes at alpha 0.017800
+0.877760 : 8 passes at alpha 0.016600
+0.881280 : 9 passes at alpha 0.015400
+0.883680 : 10 passes at alpha 0.014200
+0.884720 : 11 passes at alpha 0.013000
+0.884720 : 12 passes at alpha 0.011800
+0.886360 : 13 passes at alpha 0.010600
+0.887000 : 14 passes at alpha 0.009400
+0.886640 : 15 passes at alpha 0.008200
+0.886680 : 16 passes at alpha 0.007000
+0.886760 : 17 passes at alpha 0.005800
+0.887560 : 18 passes at alpha 0.004600
+0.888000 : 19 passes at alpha 0.003400
+0.887600 : 20 passes at alpha 0.002200
+
+Test xlnet
+0.5038666666666667
+
+Test D2v+XLnet
+0.594760 : 1 passes at alpha 0.025000
+0.756160 : 2 passes at alpha 0.023800
+0.811880 : 3 passes at alpha 0.022600
+0.837640 : 4 passes at alpha 0.021400
+0.854800 : 5 passes at alpha 0.020200
+0.864600 : 6 passes at alpha 0.019000
+0.871680 : 7 passes at alpha 0.017800
+0.875080 : 8 passes at alpha 0.016600
+0.877840 : 9 passes at alpha 0.015400
+0.880640 : 10 passes at alpha 0.014200
+0.881240 : 11 passes at alpha 0.013000
+0.883680 : 12 passes at alpha 0.011800
+0.884080 : 13 passes at alpha 0.010600
+0.884640 : 14 passes at alpha 0.009400
+0.885000 : 15 passes at alpha 0.008200
+0.884960 : 16 passes at alpha 0.007000
+0.885560 : 17 passes at alpha 0.005800
+0.885080 : 18 passes at alpha 0.004600
+0.885680 : 19 passes at alpha 0.003400
+0.885640 : 20 passes at alpha 0.002200

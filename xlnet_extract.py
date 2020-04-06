@@ -8,6 +8,8 @@ from keras.preprocessing.sequence import pad_sequences
 from pytorch_transformers import XLNetModel, XLNetTokenizer, XLNetForSequenceClassification
 
 from sklearn.linear_model import SGDClassifier, LogisticRegression
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.model_selection import train_test_split
 from sklearn.decomposition import PCA
 from sklearn.metrics import accuracy_score
 
@@ -18,17 +20,10 @@ import numpy as np
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 TOTAL = 25000
-myPath = "aclImdb/train"
+MY_PATH = "aclImdb/train"
 
 ## Parses sentences of file in XLNet readable format
 def get_sentences(text_file):
-    # removes all non alphabet characters
-    def filter_chars(s):
-        import re
-
-        s = re.sub('<br', '', s)
-        return re.sub('[^a-zA-Z]+', '', s).lower()
-
     with open(text_file, 'r', encoding = 'utf-8') as file:
         sents = file.read().split('.')
         exclude = []
@@ -86,40 +81,23 @@ def get_dataloader(myPath, max_len = 128, batch_size = 50):
     prediction_dataloader = DataLoader(prediction_data, sampler=prediction_sampler, batch_size=batch_size)
     return prediction_dataloader
 
+def conv_layer(batch, out_shape=None):
+    ## each example in batch has (in_shape)
+    ## want to change it so that each example has (out_shape)
+    N = batch.shape[0]
+    all_max = np.max(batch)
+    result = np.zeros((N, 8,8))
+    for i in range(N):
+        for j in range(8):
+            for k in range(8):
+                mask = np.zeros((128,768))
+                w, x, y, z = j*16, (j+1)*16, k*96, (k+1)*96
+                mask[w:x][y:z] = 1
+                result[i][j][k] = np.sum(mask*batch[i])/all_max
 
-prediction_dataloader = torch.load("dataloader.pt")
-# prediction_dataloader = get_dataloader(myPath)
-# torch.save(prediction_dataloader, 'dataloader.pt')
-print("got dataloader")
+    return result
 
-model = XLNetForSequenceClassification.from_pretrained("xlnet-base-cased")
-model.cuda()
-print('got model')
-
-dat = []
-losses = []
-for batch in tqdm(prediction_dataloader, desc = "forward", ncols = 80):
-    batch = tuple(t.to(device) for t in batch)
-    b_input_ids, b_input_mask, b_labels= batch
-    with torch.no_grad():
-        outputs = model(b_input_ids, token_type_ids=None, attention_mask=b_input_mask)
-        logits = outputs[0]
-    logits = logits.detach().cpu().numpy()
-    dat.append(logits)
-    label_ids = b_labels.to('cpu').numpy()
-    # print(torch.cuda.memory_allocated(0))
-X = np.concatenate(dat)
-# print(losses)
-# print("Mean: " + str(np.mean(losses)))
-np.save("xlnet_out.npy", X)
-y = np.ones(X.shape[0])
-y[X.shape[0]//2:] = 0
-clf = LogisticRegression()
-clf.fit(X, y)
-print("Accuracy: " + str(accuracy_score(y, clf.predict(X))))
-
-
-## Test logistic regression model
+## Test logistic regression model for large data
 def test_model(dat, batch_size = 50):
     N = len(dat)*batch_size
     lr = SGDClassifier(loss = 'log')
@@ -145,6 +123,36 @@ def test_model(dat, batch_size = 50):
 	    for pred in all_preds:
 	        file.write(str(int(pred)) + '\n')
 
-# test_model(dat)
 
-print('finished')
+# prediction_dataloader = torch.load("dataloader.pt")
+prediction_dataloader = get_dataloader("aclImdb/test")
+torch.save(prediction_dataloader, 'dataloader_test.pt')
+print("got dataloader")
+
+model = XLNetForSequenceClassification.from_pretrained("xlnet-base-cased")
+model.cuda()
+print('got model')
+
+dat = []
+losses = []
+for batch in tqdm(prediction_dataloader, desc = "forward", ncols = 80):
+    batch = tuple(t.to(device) for t in batch)
+    b_input_ids, b_input_mask, b_labels= batch
+    with torch.no_grad():
+        outputs = model(b_input_ids, token_type_ids=None, attention_mask=b_input_mask)
+        logits = outputs[0]
+    logits = logits.detach().cpu().numpy()
+    dat.append(logits)
+    label_ids = b_labels.to('cpu').numpy()
+
+X = np.concatenate(dat)
+np.save("xlnet_seq_test_out.npy", X)
+# X = np.load("xlnet_sequence_out.npy")
+# X = X.reshape(X.shape[0], X.shape[1]*X.shape[2])
+y = np.ones(X.shape[0])
+y[X.shape[0]//2:] = 0
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
+print(X.shape)
+clf = RandomForestClassifier(min_samples_leaf = 100)
+clf.fit(X_train, y_train)
+print("Accuracy: " + str(accuracy_score(y_test, clf.predict(X_test))))
