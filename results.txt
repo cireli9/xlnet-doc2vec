@@ -1,5 +1,30 @@
 XL_LM: 0.5276
 XL_Seq: 0.5164
+BERT: 0.6635 (98304 features, choose first 100)
+
+computation_time: D2v train 589.5392482280731
+
+Adaptive normalized doc2vec + bert
+0.594520 : 1 passes at alpha 0.025000
+0.749400 : 2 passes at alpha 0.023800
+0.812320 : 3 passes at alpha 0.022600
+0.838360 : 4 passes at alpha 0.021400
+0.855240 : 5 passes at alpha 0.020200
+0.864640 : 6 passes at alpha 0.019000
+0.869600 : 7 passes at alpha 0.017800
+0.873360 : 8 passes at alpha 0.016600
+0.878160 : 9 passes at alpha 0.015400
+0.881280 : 10 passes at alpha 0.014200
+0.882720 : 11 passes at alpha 0.013000
+0.882000 : 12 passes at alpha 0.011800
+0.883160 : 13 passes at alpha 0.010600
+0.884480 : 14 passes at alpha 0.009400
+0.885560 : 15 passes at alpha 0.008200
+0.887440 : 16 passes at alpha 0.007000
+0.887920 : 17 passes at alpha 0.005800
+0.887720 : 18 passes at alpha 0.004600
+0.885400 : 19 passes at alpha 0.003400
+0.885920 : 20 passes at alpha 0.002200
 
 Adaptive normalized doc2vec features + xlnet
 0.608040 : 1 passes at alpha 0.025000
@@ -157,3 +182,145 @@ Test D2v+XLnet
 0.885080 : 18 passes at alpha 0.004600
 0.885680 : 19 passes at alpha 0.003400
 0.885640 : 20 passes at alpha 0.002200
+
+
+D2V
+RF 0.564000 : 1 passes at alpha 0.025000
+LR 0.591280 : 1 passes at alpha 0.025000
+RF 0.593400 : 2 passes at alpha 0.023800
+LR 0.638880 : 2 passes at alpha 0.023800
+RF 0.632800 : 3 passes at alpha 0.022600
+LR 0.663200 : 3 passes at alpha 0.022600
+RF 0.658320 : 4 passes at alpha 0.021400
+LR 0.675560 : 4 passes at alpha 0.021400
+RF 0.682760 : 5 passes at alpha 0.020200
+LR 0.696800 : 5 passes at alpha 0.020200
+RF 0.696360 : 6 passes at alpha 0.019000
+LR 0.715520 : 6 passes at alpha 0.019000
+RF 0.706200 : 7 passes at alpha 0.017800
+LR 0.731080 : 7 passes at alpha 0.017800
+RF 0.716560 : 8 passes at alpha 0.016600
+LR 0.744520 : 8 passes at alpha 0.016600
+RF 0.721280 : 9 passes at alpha 0.015400
+LR 0.753600 : 9 passes at alpha 0.015400
+RF 0.729040 : 10 passes at alpha 0.014200
+LR 0.765000 : 10 passes at alpha 0.014200
+RF 0.733640 : 11 passes at alpha 0.013000
+LR 0.770280 : 11 passes at alpha 0.013000
+RF 0.736960 : 12 passes at alpha 0.011800
+LR 0.777160 : 12 passes at alpha 0.011800
+RF 0.742360 : 13 passes at alpha 0.010600
+LR 0.781560 : 13 passes at alpha 0.010600
+RF 0.746720 : 14 passes at alpha 0.009400
+LR 0.784520 : 14 passes at alpha 0.009400
+RF 0.744840 : 15 passes at alpha 0.008200
+LR 0.786360 : 15 passes at alpha 0.008200
+RF 0.746640 : 16 passes at alpha 0.007000
+LR 0.789400 : 16 passes at alpha 0.007000
+RF 0.749600 : 17 passes at alpha 0.005800
+LR 0.790760 : 17 passes at alpha 0.005800
+RF 0.751320 : 18 passes at alpha 0.004600
+LR 0.792840 : 18 passes at alpha 0.004600
+RF 0.750840 : 19 passes at alpha 0.003400
+LR 0.793320 : 19 passes at alpha 0.003400
+RF 0.751440 : 20 passes at alpha 0.002200
+LR 0.793480 : 20 passes at alpha 0.002200
+
+Removal of stopwords produces worse results
+
+Concatenated D2v
+RF 0.695160 : 1 passes at alpha 0.025000
+LR 0.737800 : 1 passes at alpha 0.025000
+RF 0.811560 : 2 passes at alpha 0.023800
+LR 0.837040 : 2 passes at alpha 0.023800
+RF 0.837960 : 3 passes at alpha 0.022600
+LR 0.862000 : 3 passes at alpha 0.022600
+RF 0.846160 : 4 passes at alpha 0.021400
+LR 0.875600 : 4 passes at alpha 0.021400
+RF 0.846520 : 5 passes at alpha 0.020200
+LR 0.881400 : 5 passes at alpha 0.020200
+RF 0.845400 : 6 passes at alpha 0.019000
+LR 0.884480 : 6 passes at alpha 0.019000
+RF 0.845880 : 7 passes at alpha 0.017800
+LR 0.887960 : 7 passes at alpha 0.017800
+RF 0.847880 : 8 passes at alpha 0.016600
+LR 0.890440 : 8 passes at alpha 0.016600
+RF 0.848280 : 9 passes at alpha 0.015400
+LR 0.891520 : 9 passes at alpha 0.015400
+RF 0.848160 : 10 passes at alpha 0.014200
+LR 0.892120 : 10 passes at alpha 0.014200
+RF 0.847000 : 11 passes at alpha 0.013000
+LR 0.894000 : 11 passes at alpha 0.013000
+RF 0.848960 : 12 passes at alpha 0.011800
+LR 0.893800 : 12 passes at alpha 0.011800
+RF 0.847120 : 13 passes at alpha 0.010600
+LR 0.895120 : 13 passes at alpha 0.010600
+RF 0.846520 : 14 passes at alpha 0.009400
+LR 0.895160 : 14 passes at alpha 0.009400
+RF 0.846080 : 15 passes at alpha 0.008200
+LR 0.895200 : 15 passes at alpha 0.008200
+RF 0.845800 : 16 passes at alpha 0.007000
+LR 0.895520 : 16 passes at alpha 0.007000
+RF 0.842880 : 17 passes at alpha 0.005800
+LR 0.896080 : 17 passes at alpha 0.005800
+RF 0.841880 : 18 passes at alpha 0.004600
+LR 0.895840 : 18 passes at alpha 0.004600
+RF 0.845440 : 19 passes at alpha 0.003400
+LR 0.895640 : 19 passes at alpha 0.003400
+RF 0.845320 : 20 passes at alpha 0.002200
+LR 0.896080 : 20 passes at alpha 0.002200
+
+
+Concatenated + BERT
+RF 0.689000 : 1 passes at alpha 0.025000
+LR 0.734680 : 1 passes at alpha 0.025000
+RF 0.802160 : 2 passes at alpha 0.023800
+LR 0.834840 : 2 passes at alpha 0.023800
+RF 0.828640 : 3 passes at alpha 0.022600
+LR 0.858080 : 3 passes at alpha 0.022600
+RF 0.840080 : 4 passes at alpha 0.021400
+LR 0.870920 : 4 passes at alpha 0.021400
+RF 0.843200 : 5 passes at alpha 0.020200
+LR 0.878720 : 5 passes at alpha 0.020200
+RF 0.843080 : 6 passes at alpha 0.019000
+LR 0.882440 : 6 passes at alpha 0.019000
+RF 0.844080 : 7 passes at alpha 0.017800
+LR 0.885480 : 7 passes at alpha 0.017800
+RF 0.848080 : 8 passes at alpha 0.016600
+LR 0.888280 : 8 passes at alpha 0.016600
+RF 0.844880 : 9 passes at alpha 0.015400
+LR 0.889760 : 9 passes at alpha 0.015400
+RF 0.846080 : 10 passes at alpha 0.014200
+LR 0.890200 : 10 passes at alpha 0.014200
+RF 0.846080 : 11 passes at alpha 0.013000
+LR 0.892000 : 11 passes at alpha 0.013000
+RF 0.846400 : 12 passes at alpha 0.011800
+LR 0.892360 : 12 passes at alpha 0.011800
+RF 0.845360 : 13 passes at alpha 0.010600
+LR 0.892320 : 13 passes at alpha 0.010600
+RF 0.846280 : 14 passes at alpha 0.009400
+LR 0.892520 : 14 passes at alpha 0.009400
+RF 0.845840 : 15 passes at alpha 0.008200
+LR 0.892480 : 15 passes at alpha 0.008200
+RF 0.845440 : 16 passes at alpha 0.007000
+LR 0.893120 : 16 passes at alpha 0.007000
+RF 0.845640 : 17 passes at alpha 0.005800
+LR 0.893480 : 17 passes at alpha 0.005800
+RF 0.846200 : 18 passes at alpha 0.004600
+LR 0.893640 : 18 passes at alpha 0.004600
+RF 0.846000 : 19 passes at alpha 0.003400
+LR 0.893680 : 19 passes at alpha 0.003400
+RF 0.844360 : 20 passes at alpha 0.002200
+LR 0.893880 : 20 passes at alpha 0.002200
+
+0.8934 D2v + compressed glove NN
+0.89436 D2v + compressed glove LR
+
+d2v+glove
+Accuracy = 0.88384 for C = 0.1
+Accuracy = 0.89376 for C = 0.5
+Accuracy = 0.89556 for C = 1.0
+Accuracy = 0.88916 for C = 5.0
+
+dbow+glove
+0.8946 NN

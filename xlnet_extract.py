@@ -1,9 +1,10 @@
 ########################################################
 ## Extract XLNet hidden layer features for movie reviews
 ########################################################
-
 import torch
 from torch.utils.data import TensorDataset, DataLoader, RandomSampler, SequentialSampler
+import torch.nn as nn
+import torch.nn.functional as F
 from keras.preprocessing.sequence import pad_sequences
 from pytorch_transformers import XLNetModel, XLNetTokenizer, XLNetForSequenceClassification
 
@@ -25,18 +26,9 @@ MY_PATH = "aclImdb/train"
 ## Parses sentences of file in XLNet readable format
 def get_sentences(text_file):
     with open(text_file, 'r', encoding = 'utf-8') as file:
-        sents = file.read().split('.')
-        exclude = []
-        for i in range(len(sents)):
-            if sents[i].isspace() or sents[i] == "":
-                exclude.append(i)
-            else:
-                sents[i] = sents[i] + " [SEP]"
-            if i == len(sents) - 1:
-                sents[i] = sents[i] + " [CLS]"
-
-        sents = [sents[i] for i in range(len(sents)) if i not in exclude]
-        return ' '.join(sents)
+        sents = file.read() + " [SEP] [CLS]"
+        sents = sents.strip().replace("<br />", " ")
+        return sents
 
 def get_data(mypath):
     pos_reviews = sorted(os.listdir(mypath + "/pos"),
@@ -59,7 +51,7 @@ def get_dataloader(myPath, max_len = 128, batch_size = 50):
     train_revs = get_data(myPath)
 
     ## tokenize inputs
-    tokenizer = XLNetTokenizer.from_pretrained('xlnet-base-cased', do_lower_case=True)
+    tokenizer = XLNetTokenizer.from_pretrained('xlnet-base-cased', do_lower_case=False)
     tokenized_texts = [tokenizer.tokenize(rev) for rev in train_revs]
     input_ids = [tokenizer.convert_tokens_to_ids(x) for x in tokenized_texts]
     input_ids = pad_sequences(input_ids, maxlen=max_len, dtype="long", truncating="post", padding="post")
@@ -81,6 +73,7 @@ def get_dataloader(myPath, max_len = 128, batch_size = 50):
     prediction_dataloader = DataLoader(prediction_data, sampler=prediction_sampler, batch_size=batch_size)
     return prediction_dataloader
 
+## Used to convert XLNet hidden layer output to smaller feature set for logistic regression
 def conv_layer(batch, out_shape=None):
     ## each example in batch has (in_shape)
     ## want to change it so that each example has (out_shape)
@@ -95,64 +88,63 @@ def conv_layer(batch, out_shape=None):
                 mask[w:x][y:z] = 1
                 result[i][j][k] = np.sum(mask*batch[i])/all_max
 
-    return result
+    return result.flatten()
 
-## Test logistic regression model for large data
-def test_model(dat, batch_size = 50):
-    N = len(dat)*batch_size
-    lr = SGDClassifier(loss = 'log')
-    for idx, batch in enumerate(dat):
-        if idx < N//(batch_size*2):
-            lr.partial_fit(batch, np.ones(50), classes = np.array([0,1]))
-        else:
-            lr.partial_fit(batch, np.zeros(50))
-    print("fit model")
+class Summarize(nn.Module):
+    def __init__(self):
+        super(Summarize, self).__init__()
+        # use another projection as in BERT
+        self.dense = nn.Linear(768,768)
+        torch.nn.init.normal_(self.dense.weight, std = 0.02)
+        self.dropout = nn.Dropout(p=0.1)
 
-    correct = 0
-    all_preds = []
-    for idx, batch in enumerate(dat):
-        preds = lr.predict(batch)
-        all_preds += list(preds)
-        if idx < N//(batch_size*2):
-            correct += accuracy_score(np.ones(50), preds,normalize= False)
-        else:
-            correct+= accuracy_score(np.zeros(50), preds,normalize= False)
-    print ("Accuracy for alpha=%s,  = %s" % (0.0001, correct/N))
+    def forward(self, x):
+        # x = torch.mean(x)
+        x = self.dropout(x)
+        # x = torch.tanh(self.dense(x))
+        return x
 
-    with open("output.txt", 'w') as file:
-	    for pred in all_preds:
-	        file.write(str(int(pred)) + '\n')
+def final_hidden(prediction_dataloader, model, device):
+    dat = []
+    for batch in tqdm(prediction_dataloader, desc = "forward", ncols = 80):
+        batch = tuple(t.to(device) for t in batch)
+        b_input_ids, b_input_mask, b_labels= batch
+        with torch.no_grad():
+            outputs = model(b_input_ids, token_type_ids=None, attention_mask=b_input_mask)
+            logits = outputs[0]
+            logits = logits.detach().cpu().numpy()
+            logits = conv_layer(logits)
+        dat.append(logits)
+        # dat.append(np.mean(logits, axis = -1))
+        label_ids = b_labels.to('cpu').numpy()
+
+    return np.concatenate(dat)
 
 
-# prediction_dataloader = torch.load("dataloader.pt")
-prediction_dataloader = get_dataloader("aclImdb/test")
-torch.save(prediction_dataloader, 'dataloader_test.pt')
+# prediction_dataloader = torch.load("dataloader_test.pt")
+train_dataloader = get_dataloader('aclImdb/train')
+test_dataloader = get_dataloader("aclImdb/test")
+# torch.save(prediction_dataloader, 'dataloader_test.pt')
 print("got dataloader")
 
-model = XLNetForSequenceClassification.from_pretrained("xlnet-base-cased")
+model = XLNetModel.from_pretrained("xlnet-base-cased")
+summarize = Summarize()
 model.cuda()
+summarize.cuda()
 print('got model')
 
-dat = []
-losses = []
-for batch in tqdm(prediction_dataloader, desc = "forward", ncols = 80):
-    batch = tuple(t.to(device) for t in batch)
-    b_input_ids, b_input_mask, b_labels= batch
-    with torch.no_grad():
-        outputs = model(b_input_ids, token_type_ids=None, attention_mask=b_input_mask)
-        logits = outputs[0]
-    logits = logits.detach().cpu().numpy()
-    dat.append(logits)
-    label_ids = b_labels.to('cpu').numpy()
+X_train = final_hidden(train_dataloader, model, device)
+np.save("xlnet_multilayer_train.npy", X_train)
 
-X = np.concatenate(dat)
-np.save("xlnet_seq_test_out.npy", X)
-# X = np.load("xlnet_sequence_out.npy")
-# X = X.reshape(X.shape[0], X.shape[1]*X.shape[2])
-y = np.ones(X.shape[0])
-y[X.shape[0]//2:] = 0
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
-print(X.shape)
-clf = RandomForestClassifier(min_samples_leaf = 100)
-clf.fit(X_train, y_train)
-print("Accuracy: " + str(accuracy_score(y_test, clf.predict(X_test))))
+X_test = final_hidden(test_dataloader, model, device)
+np.save("xlnet_multilayer_test.npy", X_test)
+# X = np.load("xlnetsumm_out.npy")
+# X = np.squeeze(X)#.reshape(X.shape[0], X.shape[1]*X.shape[2])
+# print(X.shape)
+# y = np.ones(X.shape[0])
+# y[X.shape[0]//2:] = 0
+# y_train, y_test = y, y
+#
+# clf = LogisticRegression(max_iter = 200)#, penalty = 'l1', solver = 'liblinear')
+# clf.fit(X_train, y_train)
+# print("Accuracy: " + str(accuracy_score(y_test, clf.predict(X_test))))

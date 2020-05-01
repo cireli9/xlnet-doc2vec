@@ -10,6 +10,7 @@ from tqdm import tqdm as tqdm
 from warnings import filterwarnings
 
 from sklearn.linear_model import LogisticRegression
+from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score
 
 from gensim.models.doc2vec import TaggedDocument
@@ -19,12 +20,16 @@ from collections import namedtuple
 import multiprocessing
 
 MY_PATH = "aclImdb/train"
-
+with open('stopwords.txt') as f:
+    SW = [word for line in f for word in line.split()]
 ## Parses sentences of file in Doc2Vec readable format
 def get_clean(text_file):
+
+
     with open(text_file, 'r', encoding='utf-8') as file:
         review = list(map(lambda s: re.sub('\W', '', s).lower(),
                         file.read().split(' ')))
+        review = [w for w in review if w not in SW]
     return review
 
 ## Parse data given main folder path
@@ -63,7 +68,9 @@ simple_models = [
     # PV-DM w/concatenation - window=5 (both sides) approximates paper's 10-word total window size
     Doc2Vec(dm=1, dm_concat=1, size=100, window=5, negative=5, hs=0, min_count=2, workers=cores),
     # PV-DBOW
-    Doc2Vec(dm=0, size=100, negative=5, hs=0, min_count=2, workers=cores)
+    Doc2Vec(dm=0, size=100, negative=5, hs=0, min_count=2, workers=cores),
+    # PV-DM w/average
+    Doc2Vec(dm=1, dm_mean=1, size=100, window=10, negative=5, hs=0, min_count=2, workers=cores)]
 ]
 
 # speed setup by sharing results of 1st model's vocabulary scan
@@ -71,13 +78,13 @@ simple_models[0].build_vocab(doc_list)  # PV-DM/concat requires one special NULL
 for model in simple_models[1:]:
     model.reset_from(simple_models[0])
 print("got model")
-
+from gensim.test.test_doc2vec import ConcatenatedDoc2Vec
 #Create dbow+dmm model (concatenation of model 2 and 3)
-train_model = simple_models[1]
+train_model =  ConcatenatedDoc2Vec([simple_models[1], simple_models[2]])
 
 #Load XLNet features
-xlnet_train = np.load("xlnet_sequence_out.npy").tolist()
-xlnet_features = np.load("xlnet_seq_test_out.npy").tolist()
+xlnet_train = np.load("bert_features.npy").tolist()
+xlnet_features = np.load("bert_test_features.npy").tolist()
 alpha, min_alpha, passes = (0.025, 0.001, 20)
 alpha_delta = (alpha - min_alpha) / passes
 print("begin evaluation")
@@ -95,7 +102,7 @@ for epoch in range(passes):
     train_model.train(doc_list, total_examples=train_model.corpus_count, epochs = 1)
 
     ## Logistic regression
-    clf = LogisticRegression(max_iter = 200)
+    clf = RandomForestClassifier(min_samples_leaf=20)
     # normalize doc2vec features to match order of xlnet features
     norm_factors =[10**(-np.log10(np.max(train_model.docvecs[docs_features[i][0].tags[0]])) - 1)
                     for i in range(len(docs_features))]

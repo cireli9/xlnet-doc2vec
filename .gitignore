@@ -1,2 +1,7 @@
 aclImdb/
 *.npy
+intermediate_data/
+xlnet_master/
+*.pt
+han/
+glove.6B.50d.txt
