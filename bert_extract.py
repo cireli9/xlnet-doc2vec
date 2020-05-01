@@ -175,7 +175,7 @@ def main():
 
 
 if __name__ == "__main__":
-    # main()
+    main()
     X = np.load("bert_features.npy")
     print(X.shape)
     # X = np.reshape(X, (25000, -1))

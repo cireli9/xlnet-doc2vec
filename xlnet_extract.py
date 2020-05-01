@@ -90,6 +90,7 @@ def conv_layer(batch, out_shape=None):
 
     return result.flatten()
 
+## Used as a mirror from XLNet summarize methods in paper
 class Summarize(nn.Module):
     def __init__(self):
         super(Summarize, self).__init__()

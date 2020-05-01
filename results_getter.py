@@ -14,10 +14,10 @@ from sklearn.model_selection import train_test_split
 
 filterwarnings('ignore')
 
-X_train = np.load('bert_features.npy').reshape((25000, -1))
-X_train = np.concatenate((X_train, np.load('doc2vec_train.npy')), axis=1)
-X_test = np.load('bert_test_features.npy').reshape((25000, -1))
-X_test = np.concatenate((X_test, np.load('doc2vec_test.npy')), axis=1)
+X_train = np.load('dbow_train.npy').reshape((25000, -1))
+# X_train = np.concatenate((X_train, np.load('dbow_train.npy')), axis=1)
+X_test = np.load('dbow_test.npy').reshape((25000, -1))
+# X_test = np.concatenate((X_test, np.load('dbow_test.npy')), axis=1)
 print(X_train.shape)
 # X_test = np.load('xlnetsumm1_out.npy').reshape((25000, -1))
 targets = np.zeros(X_train.shape[0])

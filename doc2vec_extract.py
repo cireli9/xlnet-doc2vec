@@ -85,9 +85,9 @@ for model in simple_models[1:]:
 print("got model")
 
 #Create dbow+dmm model (concatenation of model 2 and 3)
-train_model = simple_models[1]
-# model1 = simple_models[1]
-# model2 = simple_models[2]
+# train_model = simple_models[1]
+model1 = simple_models[1]
+model2 = simple_models[2]
 
 # bert_train = np.load("xlnetsumm_out.npy")
 # bert_test = np.load("xlnetsumm1_out.npy")
@@ -104,14 +104,14 @@ for epoch in range(passes):
     all_docs = random.sample(all_docs, len(all_docs))
 
     ## Train doc2vec
-    # model1.alpha, model1.min_alpha, model2.alpha, model2.min_alpha = alpha,alpha,alpha,alpha
+    model1.alpha, model1.min_alpha, model2.alpha, model2.min_alpha = alpha,alpha,alpha,alpha
     # train_model.alpha, train_model.min_alpha = alpha, alpha
     model1.train(all_docs, total_examples = 50000, epochs = 1)
     model2.train(all_docs, total_examples = 50000, epochs = 1)
     # train_model.train(all_docs, total_examples=50000, epochs=1)
     ## Logistic regression
-    # clf = RandomForestClassifier(min_samples_leaf=20)
-    # clf2 = LogisticRegression(max_iter=200)
+    clf = RandomForestClassifier(min_samples_leaf=20)
+    clf2 = LogisticRegression(max_iter=200)
     # test_features = [10*np.concatenate((np.array(model1.docvecs[doc.tags[0]]),
     #                 np.array(model2.docvecs[doc.tags[0]])))
     #                 for idx, doc in enumerate(test_list)]
@@ -147,16 +147,16 @@ for epoch in range(passes):
     #             10*np.concatenate((np.array(model1.docvecs[doc.tags[0]]),
     #             np.array(model2.docvecs[doc.tags[0]]))))
     #             for idx, doc in enumerate(test_list)])
-    # clf.fit(train_regressors, train_targets)
-    # clf2.fit(train_regressors, train_targets)
+    clf.fit(train_regressors, train_targets)
+    clf2.fit(train_regressors, train_targets)
 
 
 
-    # err = accuracy_score(test_targets, clf.predict(test_regressors))
-    # err2 = accuracy_score(test_targets, clf2.predict(test_regressors))
-    # accs.append(err2)
-    # print("RF %f : %i passes at alpha %f" % (err, epoch + 1, alpha))
-    # print("LR %f : %i passes at alpha %f" % (err2, epoch + 1, alpha))
+    err = accuracy_score(test_targets, clf.predict(test_regressors))
+    err2 = accuracy_score(test_targets, clf2.predict(test_regressors))
+    accs.append(err2)
+    print("RF %f : %i passes at alpha %f" % (err, epoch + 1, alpha))
+    print("LR %f : %i passes at alpha %f" % (err2, epoch + 1, alpha))
     alpha -= alpha_delta
 
 print("Time is {0}".format(time.time()-start))
